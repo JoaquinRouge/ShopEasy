@@ -39,7 +39,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       style: const TextStyle(color: Colors.black),
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
-                        hintText: 'Buscar en ShopEasy',
+                        hintText: 'Buscar en ShopEasy...',
                         hintStyle: TextStyle(
                           color: AppColors.textSecondaryColor,
                           fontSize: 14,
