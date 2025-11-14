@@ -25,10 +25,10 @@ class FirestoreDatasource {
   }
 
   Future<String?> getCurrentUsername() async {
-    final currentUserUid = await _firebaseAuth.currentUser?.uid;
+    final currentUserUid = _firebaseAuth.currentUser?.uid;
 
     final response = await _firebase.collection('users').doc(currentUserUid).get();
 
-    return response.get('username');
+    return response.data()?['username'];
   }
 }

@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:shop_easy/core/theme/app_colors.dart';
+import 'package:shop_easy/features/presentation/providers/firestore_provider.dart';
+import 'package:shop_easy/features/presentation/widgets/initial_circle_avatar.dart';
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+class CustomAppBar extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
   @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+  ConsumerState<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 120);
+  Size get preferredSize => const Size.fromHeight(200);
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _CustomAppBarState extends ConsumerState<CustomAppBar> {
   final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final usernameAsync = ref.watch(usernameProvider);
+
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.primary,
       toolbarHeight: 300,
-      titleSpacing: 10, // elimina espacio a los costados del title
+      titleSpacing: 10,
       title: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
@@ -50,15 +56,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           color: AppColors.textSecondaryColor,
                         ),
                         border: InputBorder.none,
-                        //contentPadding: EdgeInsets.symmetric(vertical: 0),
                       ),
-                      onChanged: (value) {},
                     ),
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 IconButton(
                   onPressed: () {},
                   icon: const HeroIcon(
@@ -71,25 +73,29 @@ class _CustomAppBarState extends State<CustomAppBar> {
               ],
             ),
 
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(),
-                SizedBox(width: 10),
-                Text("Usuario", style: TextStyle(fontSize: 16)),
-              ],
+            usernameAsync.when(
+              data: (username) => Row(
+                children: [
+                  InitialsAvatar(text: username ?? "?", size: 25),
+                  const SizedBox(width: 8),
+                  Text(username ?? "", style: const TextStyle(fontSize: 16)),
+                ],
+              ),
+              loading: () => const CircularProgressIndicator(color: Colors.white),
+              error: (e, _) => const Text("Error", style: TextStyle(color: Colors.white)),
             ),
 
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
 
             Row(
-              children: [
-                HeroIcon(HeroIcons.mapPin),
-                Text("Direccion", style: TextStyle(fontSize: 15)),
+              children: const [
+                HeroIcon(HeroIcons.mapPin, color: Colors.white),
                 SizedBox(width: 5),
-                HeroIcon(HeroIcons.chevronRight, size: 15),
+                Text("Dirección", style: TextStyle(fontSize: 15, color: Colors.white)),
+                SizedBox(width: 5),
+                HeroIcon(HeroIcons.chevronRight, size: 15, color: Colors.white),
               ],
             ),
           ],
