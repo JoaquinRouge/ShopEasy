@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:shop_easy/core/theme/app_colors.dart';
-import 'package:shop_easy/features/presentation/providers/firestore_provider.dart';
-import 'package:shop_easy/features/presentation/widgets/initial_circle_avatar.dart';
 
 class CustomAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
@@ -13,7 +11,7 @@ class CustomAppBar extends ConsumerStatefulWidget
   ConsumerState<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(200);
+  Size get preferredSize => const Size.fromHeight(130);
 }
 
 class _CustomAppBarState extends ConsumerState<CustomAppBar> {
@@ -21,7 +19,6 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final usernameAsync = ref.watch(usernameProvider);
 
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.primary,
@@ -60,35 +57,10 @@ class _CustomAppBarState extends ConsumerState<CustomAppBar> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
-                IconButton(
-                  onPressed: () {},
-                  icon: const HeroIcon(
-                    HeroIcons.shoppingCart,
-                    style: HeroIconStyle.solid,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                ),
+
               ],
             ),
-
-            const SizedBox(height: 12),
-
-            usernameAsync.when(
-              data: (username) => Row(
-                children: [
-                  InitialsAvatar(text: username ?? "?", size: 25),
-                  const SizedBox(width: 8),
-                  Text(username ?? "", style: const TextStyle(fontSize: 16)),
-                ],
-              ),
-              loading: () => const CircularProgressIndicator(color: Colors.white),
-              error: (e, _) => const Text("Error", style: TextStyle(color: Colors.white)),
-            ),
-
-            const SizedBox(height: 12),
-
+            SizedBox(height: 24,),
             Row(
               children: const [
                 HeroIcon(HeroIcons.mapPin, color: Colors.white),

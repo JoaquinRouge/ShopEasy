@@ -22,7 +22,9 @@ class Product {
       description: json['description'],
       price: (json['price'] as num).toDouble(),
       category: json['category'],
-      imageUrl: json['image'],
+      imageUrl: (json['images'] as List<dynamic>).isNotEmpty
+          ? json['images'][0]
+          : "",
     );
   }
 }

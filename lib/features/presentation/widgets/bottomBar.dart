@@ -32,6 +32,7 @@ class _CustomBottomBarState extends ConsumerState<CustomBottomBar> {
         children: [
           navItem(context, HeroIcons.home, "Inicio", "/home", currentRoute),
           navItem(context, HeroIcons.squares2x2, "Categorías", "/category", currentRoute),
+          navItem(context, HeroIcons.shoppingCart,"Carrito","/cart",currentRoute),
           navItem(context, HeroIcons.user, "Perfil", "/profile", currentRoute),
         ],
       ),
