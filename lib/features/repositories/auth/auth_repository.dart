@@ -15,8 +15,8 @@ class AuthRepository extends IAuthRepository {
   }
 
   @override
-  Future<UserEntity?> signUp(String email, String password) async {
-    final user = await datasource.signUpWithEmail(email, password);
+  Future<UserEntity?> signUp(String email,String username, String password) async {
+    final user = await datasource.signUpWithEmail(email,username, password);
 
     return UserEntity(id: user!.uid, email: user.email!, username: "");
   }

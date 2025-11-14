@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shop_easy/features/datasources/firebase_auth_datasource.dart';
+import 'package:shop_easy/features/datasources/firestore_datasource.dart';
 import 'package:shop_easy/features/repositories/auth/auth_repository.dart';
 import 'package:shop_easy/features/usecases/auth/sign_in_usecase.dart';
 import 'package:shop_easy/features/usecases/auth/sign_out_usecase.dart';
@@ -10,8 +12,19 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
   return FirebaseAuth.instance;
 });
 
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance;
+});
+
+final firestoreDatasourceProvider = Provider(
+  (ref) => FirestoreDatasource(ref.read(firestoreProvider),ref.read(firebaseAuthProvider)),
+);
+
 final authDatasourceProvider = Provider(
-  (ref) => FirebaseAuthDatasource(ref.read(firebaseAuthProvider)),
+  (ref) => FirebaseAuthDatasource(
+    ref.read(firebaseAuthProvider),
+    ref.read(firestoreDatasourceProvider),
+  ),
 );
 
 final authRepositoryProvider = Provider(
