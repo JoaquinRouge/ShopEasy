@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:shop_easy/core/auth_error_mapper.dart';
 import 'package:shop_easy/features/presentation/providers/auth_provider.dart';
 
 class Register extends ConsumerStatefulWidget {
@@ -17,7 +18,6 @@ class _RegisterState extends ConsumerState<Register> {
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   bool _showPassword = false;
   bool _showConfirmPassword = false;
   bool _loading = false;
@@ -94,30 +94,6 @@ class _RegisterState extends ConsumerState<Register> {
                     ),
                     const SizedBox(height: 12),
 
-                    // Confirmar contraseña
-                    _buildInputField(
-                      controller: _confirmPasswordController,
-                      hintText: "Confirmar contraseña",
-                      prefixIcon: HeroIcons.lockClosed,
-                      context: context,
-                      obscureText: !_showConfirmPassword,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _showConfirmPassword = !_showConfirmPassword;
-                          });
-                        },
-                        icon: HeroIcon(
-                          _showConfirmPassword
-                              ? HeroIcons.eyeSlash
-                              : HeroIcons.eye,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 28,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
                     // Botón de registro
                     SizedBox(
                       width: double.infinity,
@@ -146,9 +122,11 @@ class _RegisterState extends ConsumerState<Register> {
                                 );
                             context.go("/home");
                           } on FirebaseAuthException catch (e) {
+                            final message = AuthErrorMapper.mapError(e.code);
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Error: ${e.message}"),
+                                content: Text(message),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -159,7 +137,7 @@ class _RegisterState extends ConsumerState<Register> {
                           } catch (e) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Error: ${e}"),
+                                content: Text(e.toString()),
                                 backgroundColor: Colors.red,
                               ),
                             );
@@ -182,7 +160,7 @@ class _RegisterState extends ConsumerState<Register> {
                                 color: Colors.white,
                                 size: 28,
                               ),
-                              SizedBox(width: 8,),
+                              SizedBox(width: 8),
                               Text(
                                 "Registrarte",
                                 style: TextStyle(
@@ -247,7 +225,6 @@ class _RegisterState extends ConsumerState<Register> {
         hintText: hintText,
         prefixIcon: HeroIcon(
           prefixIcon,
-          style: HeroIconStyle.solid,
           color: Theme.of(context).colorScheme.primary,
           size: 28,
         ),
@@ -257,7 +234,15 @@ class _RegisterState extends ConsumerState<Register> {
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 1.8),
         ),
       ),
     );

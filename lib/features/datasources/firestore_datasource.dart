@@ -8,15 +8,13 @@ class FirestoreDatasource {
   FirestoreDatasource(this._firebase, this._firebaseAuth);
 
   Future<void> createUsername(String username, String currentUserUid) async {
-    final usernameNormalized = username.trim().toLowerCase();
-
     final exists = await _firebase
         .collection('users')
-        .where('username', isEqualTo: usernameNormalized)
+        .where('username', isEqualTo: username)
         .get();
 
     if (exists.docs.isNotEmpty) {
-      throw new Exception("Username already in use");
+      throw FirebaseAuthException(code: "username-taken", message: "El nombre de usuario ya esta en uso.");
     }
 
     await _firebase.collection('users').doc(currentUserUid).set({
@@ -27,7 +25,10 @@ class FirestoreDatasource {
   Future<String?> getCurrentUsername() async {
     final currentUserUid = _firebaseAuth.currentUser?.uid;
 
-    final response = await _firebase.collection('users').doc(currentUserUid).get();
+    final response = await _firebase
+        .collection('users')
+        .doc(currentUserUid)
+        .get();
 
     return response.data()?['username'];
   }

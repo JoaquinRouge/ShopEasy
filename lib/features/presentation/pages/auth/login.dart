@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:shop_easy/core/auth_error_mapper.dart';
 import 'package:shop_easy/features/presentation/providers/auth_provider.dart';
 
 class Login extends ConsumerStatefulWidget {
@@ -66,10 +67,7 @@ class _LoginState extends ConsumerState<Login> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                prefixIcon: HeroIcon(
-                  HeroIcons.envelope,
-                  color: primary,
-                ),
+                prefixIcon: HeroIcon(HeroIcons.envelope, color: primary),
                 hintText: "Correo electrónico",
                 hintStyle: TextStyle(color: textSecondary),
                 filled: true,
@@ -99,10 +97,7 @@ class _LoginState extends ConsumerState<Login> {
               controller: _passwordController,
               obscureText: !_showPassword,
               decoration: InputDecoration(
-                prefixIcon: HeroIcon(
-                  HeroIcons.lockClosed,
-                  color: primary,
-                ),
+                prefixIcon: HeroIcon(HeroIcons.lockClosed, color: primary),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _showPassword
@@ -144,10 +139,7 @@ class _LoginState extends ConsumerState<Login> {
                 onPressed: () {},
                 child: Text(
                   "¿Olvidaste tu contraseña?",
-                  style: TextStyle(
-                    color: primary,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(color: primary, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
@@ -171,16 +163,17 @@ class _LoginState extends ConsumerState<Login> {
                   try {
                     setState(() => _loading = true);
 
-                    await ref.read(signInUseCaseProvider).call(
-                          _emailController.text,
-                          _passwordController.text,
-                        );
+                    await ref
+                        .read(signInUseCaseProvider)
+                        .call(_emailController.text, _passwordController.text);
 
                     context.go("/home");
                   } on FirebaseAuthException catch (e) {
+                    final message = AuthErrorMapper.mapError(e.code);
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("Error: ${e.message}"),
+                        content: Text(message),
                         backgroundColor: Colors.red,
                       ),
                     );
