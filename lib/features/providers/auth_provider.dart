@@ -23,7 +23,7 @@ final authDatasourceProvider = Provider(
 );
 
 final authRepositoryProvider = Provider(
-  (ref) => AuthRepository(ref.read(authDatasourceProvider)),
+  (ref) => AuthRepository(ref.read(authDatasourceProvider),ref.read(firestoreDatasourceProvider)),
 );
 
 final signInUseCaseProvider = Provider(

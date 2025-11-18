@@ -18,6 +18,7 @@ dependencies:
   heroicons: ^0.11.0
   firebase_auth: ^6.1.2
   cloud_firestore: ^6.1.0
+  rxdart: ^0.27.0
 
 dev_dependencies:
   flutter_test:

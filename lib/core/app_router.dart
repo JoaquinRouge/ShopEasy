@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_easy/features/entitites/user_entity.dart';
 import 'package:shop_easy/features/presentation/pages/Home.dart';
 import 'package:shop_easy/features/presentation/pages/auth/login.dart';
 import 'package:shop_easy/features/presentation/pages/auth/register.dart';
@@ -65,7 +66,7 @@ redirect: (BuildContext context, GoRouterState state) {
         return '/loading';
       }
 
-      final User? user = authState.value; // El usuario logueado o null
+      final UserEntity? user = authState.value; // El usuario logueado o null
       
       // Rutas de autenticación (rutas públicas)
       final bool isLoggingIn = state.location == '/login' || state.location == '/register';

@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shop_easy/features/entitites/user_entity.dart';
 import 'package:shop_easy/features/repositories/auth/i_auth_repository.dart';
 
 class AuthStateChangeUsecase {
@@ -6,7 +6,7 @@ class AuthStateChangeUsecase {
 
   AuthStateChangeUsecase(this.repository);
 
-  Stream<User?> call() {
+  Stream<UserEntity?> call() {
     return repository.authStateChanges();
   }
 }
