@@ -10,4 +10,9 @@ class FirestoreRepository extends IFirestoreRepository {
   Future<String?> getUsername() async {
     return await datasource.getCurrentUsername();
   }
+
+  @override
+  Future<DateTime?> getCreationDate() async {
+    return await datasource.getCreationDate();
+  }
 }

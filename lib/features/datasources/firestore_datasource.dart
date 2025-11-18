@@ -14,7 +14,10 @@ class FirestoreDatasource {
         .get();
 
     if (exists.docs.isNotEmpty) {
-      throw FirebaseAuthException(code: "username-taken", message: "El nombre de usuario ya esta en uso.");
+      throw FirebaseAuthException(
+        code: "username-taken",
+        message: "El nombre de usuario ya esta en uso.",
+      );
     }
 
     await _firebase.collection('users').doc(currentUserUid).set({
@@ -31,5 +34,9 @@ class FirestoreDatasource {
         .get();
 
     return response.data()?['username'];
+  }
+
+  Future<DateTime?> getCreationDate() async{
+    return _firebaseAuth.currentUser?.metadata.creationTime;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:shop_easy/core/theme/app_colors.dart';
-import 'package:shop_easy/features/presentation/providers/page_provider.dart';
+import 'package:shop_easy/features/providers/page_provider.dart';
 
 class CustomBottomBar extends ConsumerStatefulWidget {
   const CustomBottomBar({super.key});

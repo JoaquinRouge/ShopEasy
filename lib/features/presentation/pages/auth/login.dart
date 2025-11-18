@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:shop_easy/core/auth_error_mapper.dart';
-import 'package:shop_easy/features/presentation/providers/auth_provider.dart';
+import 'package:shop_easy/features/providers/auth_provider.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});
@@ -167,7 +167,6 @@ class _LoginState extends ConsumerState<Login> {
                         .read(signInUseCaseProvider)
                         .call(_emailController.text, _passwordController.text);
 
-                    context.go("/home");
                   } on FirebaseAuthException catch (e) {
                     final message = AuthErrorMapper.mapError(e.code);
 

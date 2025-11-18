@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:shop_easy/core/auth_error_mapper.dart';
-import 'package:shop_easy/features/presentation/providers/auth_provider.dart';
+import 'package:shop_easy/features/providers/auth_provider.dart';
 
 class Register extends ConsumerStatefulWidget {
   const Register({super.key});
@@ -19,7 +19,6 @@ class _RegisterState extends ConsumerState<Register> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _showPassword = false;
-  bool _showConfirmPassword = false;
   bool _loading = false;
 
   @override

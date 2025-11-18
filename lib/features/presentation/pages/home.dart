@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shop_easy/features/presentation/providers/product_provider.dart';
+import 'package:shop_easy/features/providers/product_provider.dart';
 import 'package:shop_easy/features/presentation/widgets/appbar.dart';
 import 'package:shop_easy/features/presentation/widgets/bottomBar.dart';
 
